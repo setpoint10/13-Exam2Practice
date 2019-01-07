@@ -41,9 +41,9 @@ def main():
     ###########################################################################
 
     run_test_init()
-    # run_test_append_string()
-    # run_test_double()
-    # run_test_shrink()
+    run_test_append_string()
+    run_test_double()
+    run_test_shrink()
     # run_test_double_then_shrink()
     # run_test_reset()
     # run_test_steal()
@@ -164,13 +164,18 @@ class Box(object):
         #       Read_this_ONLY_when_asked_Part_2.txt
         #    and complete your work on the problem.
         # ---------------------------------------------------------------------
-        if len(additional_contents)+len(self.contents)<self.volume:
+        s=""
+        if len(additional_contents)+len(self.contents)<=self.volume or self.volume < len(self.contents):
             self.contents=self.contents+str(additional_contents)
-            s=""
-        else:
-            size_difference=self.volume-len(self.contents)
+            return s
+        if len(additional_contents)+len(self.contents)>self.volume:
+            size_difference=len(additional_contents)+len(self.contents)-self.volume
             for k in range(size_difference):
                 self.contents=self.contents+additional_contents[k]
+                s=s+str(additional_contents[k+size_difference])
+            s=s+str(additional_contents[len(additional_contents)-1])
+            return s
+
 
 
 
@@ -209,7 +214,7 @@ class Box(object):
           #                       contents that did NOT fit]
         """
         # ---------------------------------------------------------------------
-        # TODO: 4. Implement and test this function.
+        # DONE: 4. Implement and test this function.
         #     The testing code is already written for you (above).
         # ---------------------------------------------------------------------
         # ---------------------------------------------------------------------
@@ -221,6 +226,9 @@ class Box(object):
         # FOR FULL CREDIT, YOUR SOLUTION MUST BE NO MORE THAN
         #    ** TWO **   LINES OF CODE.
         #######################################################################
+        a=self.append_string(self.contents)
+        return a
+
 
     def shrink(self, new_volume):
         """
@@ -258,7 +266,7 @@ class Box(object):
           :type new_volume: int
         """
         # ---------------------------------------------------------------------
-        # TODO: 5. Implement and test this function.
+        # DONE: 5. Implement and test this function.
         #     The testing code is already written for you (above).
         # ---------------------------------------------------------------------
         # ---------------------------------------------------------------------
@@ -269,6 +277,18 @@ class Box(object):
         # IMPORTANT: Write a solution to this problem in pseudo-code,
         # and THEN translate the pseudo-code to a solution.
         # ---------------------------------------------------------------------
+        s=""
+        self.volume=new_volume
+        if len(self.contents)>self.volume:
+            for i in range(len(self.contents)-self.volume):
+                s=s+str(self.contents[self.volume])
+            for k in range(self.volume):
+                a=""
+                a=a+self.contents[k+self.volume]
+                self.contents=a
+            return s
+
+
 
     def double_then_shrink(self, new_volume):
         """
